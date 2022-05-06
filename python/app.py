@@ -20,4 +20,4 @@ while True:
     except Exception as e:
         print(e)
 
-    time.sleep(1)
+    time.sleep(10)

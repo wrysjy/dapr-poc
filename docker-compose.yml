@@ -1,12 +1,10 @@
 version: '3'
 services:
-  ############################
-  # Node app + Dapr sidecar
-  ############################
   nodeapp:
     build: ./node
     ports:
       - "50002:50002"
+      - "3000:3000"
     depends_on:
       - redis
       - placement
@@ -25,9 +23,6 @@ services:
     depends_on:
       - nodeapp
     network_mode: "service:nodeapp"
-  ############################
-  # Python app + Dapr sidecar
-  ############################
   pythonapp:
     build: ./python
     depends_on:
@@ -46,9 +41,6 @@ services:
     depends_on:
       - pythonapp
     network_mode: "service:pythonapp"
-  ############################
-  # Dapr placement service
-  ############################
   placement:
     image: "daprio/dapr"
     command: ["./placement", "-port", "50006"]
@@ -56,9 +48,6 @@ services:
       - "50006:50006"
     networks:
       - hello-dapr
-  ############################
-  # Redis state store
-  ############################
   redis:
     image: "redis:alpine"
     ports:

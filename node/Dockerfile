@@ -1,6 +1,6 @@
 FROM node:8-alpine
 WORKDIR /app
-COPY . .
+ADD . .
 RUN npm install
 EXPOSE 3000
 CMD [ "node", "app.js" ]
