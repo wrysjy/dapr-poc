@@ -1,8 +1,3 @@
-// ------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-// ------------------------------------------------------------
-
 const express = require('express');
 const bodyParser = require('body-parser');
 require('isomorphic-fetch');
@@ -58,6 +53,13 @@ app.post('/neworder', (req, res) => {
         console.log(error);
         res.status(500).send({message: error});
     });
+});
+
+// subscribe to the topic
+app.post('/dsstatus', (req, res) => {
+    // const data = req.body.data;
+    console.log("PubSub received a message!");
+    res.sendStatus(200);
 });
 
 app.listen(port, () => console.log(`Node App listening on port ${port}!`));

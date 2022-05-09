@@ -1,7 +1,7 @@
-#POST http://localhost:3500/v1.0/publish/pubsub/neworder
-#Content-Type: application/json
-#
-#{"order":{"orderId":"44"}}
+POST http://localhost:3501/v1.0/publish/pubsub/neworder
+Content-Type: application/json
 
-# get current order
-GET http://localhost:3000/order
+{"order":{"orderId":"44"}}
+
+### get current order
+GET http://localhost:3501/v1.0/invoke/nodeapp/method/order

@@ -4,7 +4,6 @@ services:
     build: ./node
     ports:
       - "50002:50002"
-      - "3000:3000"
     depends_on:
       - redis
       - placement
@@ -12,14 +11,14 @@ services:
       - hello-dapr
   nodeapp-dapr:
     image: "daprio/daprd:edge"
-    command: ["./daprd",
-     "-app-id", "nodeapp",
-     "-app-port", "3000",
-     "-placement-host-address", "placement:50006",
-     "-dapr-grpc-port", "50002",
-     "-components-path", "/components"]
+    command: [ "./daprd",
+               "-app-id", "nodeapp",
+               "-app-port", "3000",
+               "-placement-host-address", "placement:50006",
+               "-dapr-grpc-port", "50002",
+               "-components-path", "/components" ]
     volumes:
-        - "./components/:/components"
+      - "./components/:/components"
     depends_on:
       - nodeapp
     network_mode: "service:nodeapp"
@@ -32,18 +31,39 @@ services:
       - hello-dapr
   pythonapp-dapr:
     image: "daprio/daprd:edge"
-    command: ["./daprd",
-    "-app-id", "pythonapp",
-    "-placement-host-address", "placement:50006",
-     "-components-path", "/components"]
+    command: [ "./daprd",
+               "-app-id", "pythonapp",
+               "-placement-host-address", "placement:50006",
+               "-components-path", "/components" ]
     volumes:
       - "./components/:/components"
     depends_on:
       - pythonapp
     network_mode: "service:pythonapp"
+  python-flask:
+    build: ./python-flask
+    depends_on:
+      - redis
+      - placement
+    networks:
+      - hello-dapr
+  python-flask-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+        "./daprd",
+        "-app-id", "python-flask",
+        "-app-port", "5000",
+        "-placement-host-address", "placement:50006",
+        "-components-path", "/components"
+    ]
+    volumes:
+      - "./components/:/components"
+    depends_on:
+      - pythonapp
+    network_mode: "service:python-flask"
   placement:
     image: "daprio/dapr"
-    command: ["./placement", "-port", "50006"]
+    command: [ "./placement", "-port", "50006" ]
     ports:
       - "50006:50006"
     networks:
@@ -55,4 +75,4 @@ services:
     networks:
       - hello-dapr
 networks:
-    hello-dapr:
+  hello-dapr:
