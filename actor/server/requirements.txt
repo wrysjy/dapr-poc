@@ -1,0 +1,4 @@
+fastapi
+dapr-dev
+dapr-ext-grpc-dev
+dapr-ext-fastapi-dev

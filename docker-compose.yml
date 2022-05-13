@@ -1,6 +1,7 @@
 version: '3'
 services:
   nodeapp:
+    container_name: nodeapp
     build: ./node
     ports:
       - "50002:50002"
@@ -10,6 +11,7 @@ services:
     networks:
       - hello-dapr
   nodeapp-dapr:
+    container_name: nodeapp-dapr
     image: "daprio/daprd:edge"
     command: [ "./daprd",
                "-app-id", "nodeapp",
@@ -22,6 +24,7 @@ services:
       - nodeapp
     network_mode: "service:nodeapp"
   pythonapp:
+    container_name: pythonapp
     build: ./python
     depends_on:
       - redis
@@ -29,6 +32,7 @@ services:
     networks:
       - hello-dapr
   pythonapp-dapr:
+    container_name: pythonapp-dapr
     image: "daprio/daprd:edge"
     command: [ "./daprd",
                "-app-id", "pythonapp",
@@ -40,6 +44,7 @@ services:
       - pythonapp
     network_mode: "service:pythonapp"
   python-flask:
+    container_name: python-flask
     build: ./python-flask
     depends_on:
       - redis
@@ -47,6 +52,7 @@ services:
     networks:
       - hello-dapr
   python-flask-dapr:
+    container_name: python-flask-dapr
     image: "daprio/daprd:edge"
     command: [
         "./daprd",
@@ -61,6 +67,7 @@ services:
       - pythonapp
     network_mode: "service:python-flask"
   placement:
+    container_name: placement
     image: "daprio/dapr"
     command: [ "./placement", "-port", "50006" ]
     ports:
@@ -68,6 +75,7 @@ services:
     networks:
       - hello-dapr
   redis:
+    container_name: redis
     image: "redis:alpine"
     ports:
       - "6380:6379"

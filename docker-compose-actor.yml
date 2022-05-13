@@ -1,0 +1,64 @@
+version: '3'
+services:
+  actor-server:
+    container_name: actor-server
+    build: ./actor/server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - placement
+    networks:
+      - actor-dapr
+  actor-server-dapr:
+    container_name: actor-server-dapr
+    image: "daprio/daprd:edge"
+    command: [ "./daprd",
+               "-app-id", "actor-server",
+               "-app-port", "3000",
+               "-placement-host-address", "placement:50006",
+               "-components-path", "/components"
+    ]
+    volumes:
+      - "./components/:/components"
+    depends_on:
+      - actor-server
+    network_mode: "service:actor-server"
+  actor-client:
+    container_name: actor-client
+    build: ./actor/client
+    depends_on:
+      - placement
+      - redis
+    networks:
+      - actor-dapr
+  actor-client-dapr:
+    container_name: actor-client-dapr
+    image: "daprio/daprd:edge"
+    command: [ "./daprd",
+               "-app-id", "actor-client",
+               "-placement-host-address", "placement:50006",
+               "-components-path", "/components"
+    ]
+    volumes:
+      - "./components/:/components"
+    depends_on:
+      - actor-client
+    network_mode: "service:actor-client"
+  placement:
+    container_name: placement
+    image: "daprio/dapr"
+    command: [ "./placement", "-port", "50006" ]
+    ports:
+      - "50006:50006"
+    networks:
+      - actor-dapr
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    ports:
+      - "6380:6379"
+    networks:
+      - actor-dapr
+networks:
+  actor-dapr:
