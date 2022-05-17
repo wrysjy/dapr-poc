@@ -17,9 +17,11 @@ services:
                "-app-id", "nodeapp",
                "-app-port", "3000",
                "-placement-host-address", "placement:50006",
+               "-config", "./config.yaml",
                "-components-path", "/components" ]
     volumes:
       - "./components/:/components"
+      - "./config.yaml:/config.yaml"
     depends_on:
       - nodeapp
     network_mode: "service:nodeapp"
@@ -37,9 +39,11 @@ services:
     command: [ "./daprd",
                "-app-id", "pythonapp",
                "-placement-host-address", "placement:50006",
+               "-config", "./config.yaml",
                "-components-path", "/components" ]
     volumes:
       - "./components/:/components"
+      - "./config.yaml:/config.yaml"
     depends_on:
       - pythonapp
     network_mode: "service:pythonapp"
@@ -59,10 +63,12 @@ services:
         "-app-id", "python-flask",
         "-app-port", "5000",
         "-placement-host-address", "placement:50006",
+        "-config", "./config.yaml",
         "-components-path", "/components"
     ]
     volumes:
       - "./components/:/components"
+      - "./config.yaml:/config.yaml"
     depends_on:
       - pythonapp
     network_mode: "service:python-flask"
@@ -79,6 +85,23 @@ services:
     image: "redis:alpine"
     ports:
       - "6380:6379"
+    networks:
+      - hello-dapr
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
+    container_name: zipkin
+    environment:
+      - STORAGE_TYPE=mem
+      # Point the zipkin at the storage backend
+      - MYSQL_HOST=mysql
+      # Uncomment to enable self-tracing
+#      - SELF_TRACING_ENABLED=true
+      # Uncomment to increase heap size
+      # - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
+    ports:
+      # Port used for the Zipkin UI and HTTP Api
+      - "9411:9411"
+    command: --logging.level.zipkin2=DEBUG
     networks:
       - hello-dapr
 networks:

@@ -24,3 +24,6 @@ docker-compose down
 
 ## Dapr Concepts
 [figma](https://www.figma.com/file/9JkczP2Qo5ReE8fgsuFfdi/Dapr-Concept?node-id=0%3A1)
+
+## Zipkin
+http://127.0.0.1:9411/
