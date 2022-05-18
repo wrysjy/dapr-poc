@@ -27,3 +27,10 @@ docker-compose down
 
 ## Zipkin
 http://127.0.0.1:9411/
+
+## Store the configuration in configurationstore
+
+```bash
+docker exec redis redis-cli SET orderId "100||1"
+docker exec redis redis-cli SET orderId1 "200||2"
+```
