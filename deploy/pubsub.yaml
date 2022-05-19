@@ -1,12 +1,12 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: configstore
+  name: pubsub
 spec:
-  type: configuration.redis
+  type: pubsub.redis
   version: v1
   metadata:
   - name: redisHost
-    value: redis:6379
+    value: redis-master.default.svc.cluster.local:6379
   - name: redisPassword
-    value: ""
+    value: "V5NpqugCa4"

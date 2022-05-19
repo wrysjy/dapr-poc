@@ -26,6 +26,9 @@ services:
     depends_on:
       - nodeapp
     network_mode: "service:nodeapp"
+    environment:
+      - REDIS_HOST=redis:6379
+      - REDIS_PASSWORD=""
   pythonapp:
     container_name: pythonapp
     build: ./python
@@ -49,6 +52,9 @@ services:
     depends_on:
       - pythonapp
     network_mode: "service:pythonapp"
+    environment:
+      - REDIS_HOST=redis:6379
+      - REDIS_PASSWORD=""
   python-flask:
     container_name: python-flask
     build: ./python-flask
@@ -75,6 +81,9 @@ services:
     depends_on:
       - pythonapp
     network_mode: "service:python-flask"
+    environment:
+      - REDIS_HOST=redis:6379
+      - REDIS_PASSWORD=""
   placement:
     container_name: placement
     image: "daprio/dapr"
