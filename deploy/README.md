@@ -31,3 +31,8 @@ kubectl apply -f ./apps/python.yaml
 kubectl apply -f ./apps/nodeapp.yaml
 kubectl apply -f ./apps/python-flask.yaml
 ```
+
+Create Secret for test:
+```
+kubectl create secret generic eshopsecrets --from-literal=test=test
+```

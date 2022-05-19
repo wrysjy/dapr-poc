@@ -20,6 +20,6 @@ spec:
     spec:
       containers:
       - name: python
-        image: ghcr.io/wrysjy/python:latest
+        image: ghcr.io/wrysjy/python:1.0.0
       imagePullSecrets:
         - name: docker-registry-secret
