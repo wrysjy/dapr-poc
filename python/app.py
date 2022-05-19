@@ -15,7 +15,8 @@ dapr_url = "http://localhost:{}/v1.0/invoke/nodeapp/method/neworder".format(dapr
 pub_sub_url = "http://localhost:{}/v1.0/publish/pubsub/deathStarStatus".format(dapr_port)
 
 # secret store
-secret_store_url = "http://localhost:{}/v1.0/secrets/localsecretstore/mysql".format(dapr_port)
+secret_store_url = "http://localhost:{}/v1.0/secrets/kubernetes/eshopsecrets".format(dapr_port)
+# secret_store_url = "http://localhost:{}/v1.0/secrets/localsecretstore/mysql".format(dapr_port)
 
 n = 0
 while True:

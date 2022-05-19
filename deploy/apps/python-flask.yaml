@@ -1,21 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: python-flask
+  labels:
+    app: python-flask
+spec:
+  selector:
+    app: python-flask
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: LoadBalancer
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pythonflaskapp
+  name: python-flask
   labels:
-    app: pythonflask
+    app: python-flask
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pythonflask
+      app: python-flask
   template:
     metadata:
       labels:
-        app: pythonflask
+        app: python-flask
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "pythonflask"
+        dapr.io/app-id: "python-flask"
+        dapr.io/app-port: "5000"
         dapr.io/enable-api-logging: "true"
     spec:
       containers:

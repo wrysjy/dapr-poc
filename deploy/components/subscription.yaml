@@ -6,7 +6,7 @@ spec:
   topic: deathStarStatus
   route: /dsstatus
   pubsubname: pubsub
-scopes:
-- nodeapp
-- pythonapp
-- python-flask
+#scopes:
+#- nodeapp
+#- pythonapp
+#- python-flask
