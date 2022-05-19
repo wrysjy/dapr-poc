@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonflaskapp
+  labels:
+    app: pythonflask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pythonflask
+  template:
+    metadata:
+      labels:
+        app: pythonflask
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "pythonflask"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+      - name: python
+        image: ghcr.io/wrysjy/python-flask:latest
+      imagePullSecrets:
+        - name: docker-registry-secret
